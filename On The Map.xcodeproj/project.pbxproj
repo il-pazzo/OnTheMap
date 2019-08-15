@@ -8,20 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		BB02979E23050230004DB49E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02979D23050230004DB49E /* AppDelegate.swift */; };
-		BB0297A023050230004DB49E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02979F23050230004DB49E /* ViewController.swift */; };
+		BB0297A023050230004DB49E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02979F23050230004DB49E /* LoginViewController.swift */; };
 		BB0297A323050230004DB49E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB0297A123050230004DB49E /* Main.storyboard */; };
 		BB0297A523050232004DB49E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB0297A423050232004DB49E /* Assets.xcassets */; };
 		BB0297A823050232004DB49E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB0297A623050232004DB49E /* LaunchScreen.storyboard */; };
+		BB0297B423050483004DB49E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297B323050483004DB49E /* UIViewController.swift */; };
+		BB0297B6230504B0004DB49E /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297B5230504B0004DB49E /* UIStoryboard.swift */; };
+		BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297B7230504E2004DB49E /* MapViewController.swift */; };
+		BB0297BC230543CD004DB49E /* PinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297BB230543CD004DB49E /* PinListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BB02979A23050230004DB49E /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB02979D23050230004DB49E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BB02979F23050230004DB49E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BB02979F23050230004DB49E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BB0297A223050230004DB49E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB0297A423050232004DB49E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB0297A723050232004DB49E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB0297A923050232004DB49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB0297B323050483004DB49E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		BB0297B5230504B0004DB49E /* UIStoryboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStoryboard.swift; sourceTree = "<group>"; };
+		BB0297B7230504E2004DB49E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		BB0297BB230543CD004DB49E /* PinListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,50 @@
 		BB02979C23050230004DB49E /* On The Map */ = {
 			isa = PBXGroup;
 			children = (
-				BB02979D23050230004DB49E /* AppDelegate.swift */,
-				BB02979F23050230004DB49E /* ViewController.swift */,
-				BB0297A123050230004DB49E /* Main.storyboard */,
+				BB0297AF230503FF004DB49E /* App Delegate */,
+				BB0297B223050459004DB49E /* Extensions */,
+				BB0297B02305042F004DB49E /* View Controllers */,
+				BB0297B123050449004DB49E /* Storyboards */,
 				BB0297A423050232004DB49E /* Assets.xcassets */,
-				BB0297A623050232004DB49E /* LaunchScreen.storyboard */,
 				BB0297A923050232004DB49E /* Info.plist */,
 			);
 			path = "On The Map";
+			sourceTree = "<group>";
+		};
+		BB0297AF230503FF004DB49E /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				BB02979D23050230004DB49E /* AppDelegate.swift */,
+			);
+			path = "App Delegate";
+			sourceTree = "<group>";
+		};
+		BB0297B02305042F004DB49E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BB02979F23050230004DB49E /* LoginViewController.swift */,
+				BB0297B7230504E2004DB49E /* MapViewController.swift */,
+				BB0297BB230543CD004DB49E /* PinListViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		BB0297B123050449004DB49E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297A123050230004DB49E /* Main.storyboard */,
+				BB0297A623050232004DB49E /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		BB0297B223050459004DB49E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297B323050483004DB49E /* UIViewController.swift */,
+				BB0297B5230504B0004DB49E /* UIStoryboard.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +179,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB0297A023050230004DB49E /* ViewController.swift in Sources */,
+				BB0297B6230504B0004DB49E /* UIStoryboard.swift in Sources */,
+				BB0297A023050230004DB49E /* LoginViewController.swift in Sources */,
+				BB0297BC230543CD004DB49E /* PinListViewController.swift in Sources */,
 				BB02979E23050230004DB49E /* AppDelegate.swift in Sources */,
+				BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */,
+				BB0297B423050483004DB49E /* UIViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
