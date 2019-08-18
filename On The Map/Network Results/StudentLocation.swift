@@ -21,12 +21,27 @@ struct StudentLocation: Codable
     let latitude: Double
     let mapString: String
     let mediaURL: String
-    
+}
+
+extension StudentLocation
+{
     var fullName: String {
         if firstName.isEmpty && lastName.isEmpty {
             return "?"
         }
 
         return "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
+    }
+    
+    var isValidURL: Bool {
+
+        guard let url = URL(string: mediaURL),
+            let scheme = url.scheme,
+            !scheme.isEmpty,
+            ["http", "https"].contains( scheme.lowercased())
+        else {
+            return false
+        }
+        return true
     }
 }

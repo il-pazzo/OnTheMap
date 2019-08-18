@@ -13,61 +13,31 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    let detailButton = UIButton(type: .detailDisclosure)
+    let customButton = UIButton(type: .custom)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        navigationItem.title = AppDelegate.appName
+
 //        viewDidLoadOld()
         viewDidLoadNew()
     }
-    func viewDidLoadOld() {
-        
-        // The "locations" array is an array of dictionary objects that are similar to the JSON
-        // data that you can download from parse.
-        let locations = hardCodedLocationData()
-        
-        // We will create an MKPointAnnotation for each dictionary in "locations". The
-        // point annotations will be stored in this array, and then provided to the map view.
-        var annotations = [MKPointAnnotation]()
-        
-        // The "locations" array is loaded with the sample data below. We are using the dictionaries
-        // to create map annotations. This would be more stylish if the dictionaries were being
-        // used to create custom structs. Perhaps StudentLocation structs.
-        
-        for dictionary in locations {
-            
-            // Notice that the float values are being used to create CLLocationDegree values.
-            // This is a version of the Double type.
-            let lat = CLLocationDegrees(dictionary["latitude"] as! Double)
-            let long = CLLocationDegrees(dictionary["longitude"] as! Double)
-            
-            // The lat and long are used to create a CLLocationCoordinates2D instance.
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
-            let first = dictionary["firstName"] as! String
-            let last = dictionary["lastName"] as! String
-            let mediaURL = dictionary["mediaURL"] as! String
-            
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(first) \(last)"
-            annotation.subtitle = mediaURL
-            
-            // Finally we place the annotation in an array of annotations.
-            annotations.append(annotation)
-        }
-        
-        // When the array is complete, we add the annotations to the map.
-        self.mapView.addAnnotations(annotations)
-        self.mapView.showAnnotations(annotations, animated: true)
-        
-    }
+
     
     func viewDidLoadNew() {
         
         StudentLocationsLoader.loadStudentLocationsIfEmpty(completion: mapAllStudentLocations(error:))
     }
-    
+
+    @objc private func refreshStudentLocations() {
+        
+        mapView.removeAnnotations( mapView.annotations )
+        StudentLocationsLoader.refreshStudentLocations( completion: mapAllStudentLocations(error:))
+    }
+
     private func mapAllStudentLocations(error: Error?) {
         
         var annotations = [MKPointAnnotation]()
@@ -84,7 +54,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = name
-            annotation.subtitle = mediaURL
+            annotation.subtitle = loc.isValidURL ? mediaURL : nil
             
             annotations.append( annotation )
         }
@@ -108,10 +78,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.pinTintColor = .red
-            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         else {
             pinView!.annotation = annotation
+        }
+        
+        // subtitle -- the url -- is type "String??". Invalid values were set to nil
+        if annotation.subtitle != nil, annotation.subtitle! != nil {
+            pinView!.rightCalloutAccessoryView = detailButton
+        }
+        else {
+            pinView!.rightCalloutAccessoryView = nil
         }
         
         return pinView

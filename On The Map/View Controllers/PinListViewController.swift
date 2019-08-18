@@ -14,20 +14,29 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let names = hardCodedNameData()
     let mapImage = UIImage(named: "icon_pin")
-
+    
+    let colourForValidURL = UIColor.black
+    let colourForInvalidURL = UIColor.lightGray
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        ParseClient.getStudentLocations { (studentLocations, error) in
-//            StudentLocationsModel.studentLocations = self.filterOutBadData( studentLocations )
-//            self.tableView.reloadData()
-//        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        navigationItem.title = AppDelegate.appName
+        
         StudentLocationsLoader.loadStudentLocationsIfEmpty { (error) in
             self.tableView.reloadData()
             if error != nil {
                 //consider showing error alert
                 print(error!)
             }
+        }
+    }
+    
+    @objc private func refreshStudentLocations() {
+        
+        StudentLocationsLoader.refreshStudentLocations { (error) in
+            self.tableView.reloadData()
         }
     }
     
@@ -54,10 +63,13 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCell")!
+        let loc = StudentLocationsModel.studentLocations[ indexPath.row ]
         
-        cell.textLabel?.text = StudentLocationsModel.studentLocations[ indexPath.row ].fullName
+        cell.textLabel?.text = loc.fullName
         cell.imageView?.image = mapImage
-        cell.detailTextLabel?.text = StudentLocationsModel.studentLocations[indexPath.row].uniqueKey
+        cell.detailTextLabel?.text = loc.uniqueKey
+        
+        cell.textLabel?.textColor = loc.isValidURL ? colourForValidURL : colourForInvalidURL
         
         return cell
     }

@@ -17,6 +17,11 @@ class StudentLocationsLoader
             return
         }
         
+        refreshStudentLocations(completion: completion)
+    }
+    
+    class func refreshStudentLocations( completion: @escaping (Error?) -> Void ) {
+        
         ParseClient.getStudentLocations { (studentLocations, error) in
             StudentLocationsModel.studentLocations = self.filterOutBadData( studentLocations )
             completion(error)

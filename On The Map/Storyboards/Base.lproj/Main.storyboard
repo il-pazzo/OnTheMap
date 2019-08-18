@@ -38,7 +38,7 @@
             </objects>
             <point key="canvasLocation" x="-1178" y="-310"/>
         </scene>
-        <!--Pin List View Controller-->
+        <!--On The Map-->
         <scene sceneID="96G-oj-dAt">
             <objects>
                 <viewController id="qdA-Oq-dps" customClass="PinListViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
@@ -90,7 +90,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MQm-pn-olw"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Luc-ng-VmZ"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="Luc-ng-VmZ"/>
                     <connections>
                         <outlet property="tableView" destination="bhh-Ae-bR3" id="Tg1-I8-G0k"/>
                     </connections>
@@ -99,7 +99,7 @@
             </objects>
             <point key="canvasLocation" x="1431.8840579710145" y="13.392857142857142"/>
         </scene>
-        <!--Map View Controller-->
+        <!--On The Map-->
         <scene sceneID="hYT-Ru-Cgv">
             <objects>
                 <viewController id="EsL-UK-O6I" customClass="MapViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
@@ -123,7 +123,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7uB-Gi-Gjr"/>
                     </view>
-                    <navigationItem key="navigationItem" id="MN4-d8-g5F"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="MN4-d8-g5F"/>
                     <connections>
                         <outlet property="mapView" destination="hW2-6Z-aNq" id="I9S-QR-VSI"/>
                     </connections>
