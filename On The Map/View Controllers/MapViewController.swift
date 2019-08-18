@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -55,12 +55,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.mapView.addAnnotations(annotations)
         self.mapView.showAnnotations(annotations, animated: true)
     }
+}
     
-    // MARK: - MKMapViewDelegate
+// MARK: - MKMapViewDelegate
+
+// Here we create a view with a "right callout accessory view". You might choose to look into other
+// decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
+// method in TableViewDataSource.
+//
+extension MapViewController: MKMapViewDelegate {
     
-    // Here we create a view with a "right callout accessory view". You might choose to look into other
-    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
-    // method in TableViewDataSource.
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -90,11 +94,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // This delegate method is implemented to respond to taps. It opens the system browser
     // to the URL specified in the annotationViews subtitle property.
+    //
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-//                app.openURL(URL(string: toOpen)!)
                 app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
             }
         }

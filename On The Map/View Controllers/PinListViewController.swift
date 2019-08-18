@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PinListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PinListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -55,6 +55,9 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         return results
     }
+}
+
+extension PinListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return StudentLocationsModel.studentLocations.count
@@ -71,12 +74,21 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
         if loc.isValidURL {
             cell.textLabel?.textColor = colourForValidURL
             cell.imageView?.image = mapImage
+            cell.isUserInteractionEnabled = true
         }
         else {
             cell.textLabel?.textColor = colourForInvalidURL
             cell.imageView?.image = mapImageDisabled
+            cell.isUserInteractionEnabled = false
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let loc = StudentLocationsModel.studentLocations[ indexPath.row ]
+        
+        UIApplication.shared.open(URL(string: loc.mediaURL)!, options: [:], completionHandler: nil)
     }
 }
