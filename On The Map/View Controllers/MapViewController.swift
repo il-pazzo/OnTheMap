@@ -16,6 +16,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        viewDidLoadOld()
+        viewDidLoadNew()
+    }
+    func viewDidLoadOld() {
+        
         // The "locations" array is an array of dictionary objects that are similar to the JSON
         // data that you can download from parse.
         let locations = hardCodedLocationData()
@@ -54,7 +59,38 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         // When the array is complete, we add the annotations to the map.
         self.mapView.addAnnotations(annotations)
+        self.mapView.showAnnotations(annotations, animated: true)
         
+    }
+    
+    func viewDidLoadNew() {
+        
+        StudentLocationsLoader.loadStudentLocationsIfEmpty(completion: mapAllStudentLocations(error:))
+    }
+    
+    private func mapAllStudentLocations(error: Error?) {
+        
+        var annotations = [MKPointAnnotation]()
+        
+        for loc in StudentLocationsModel.studentLocations {
+            
+            let lat = loc.latitude
+            let long = loc.longitude
+            let coordinate = CLLocationCoordinate2D( latitude: lat, longitude: long)
+            
+            let name = loc.fullName
+            let mediaURL = loc.mediaURL
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = name
+            annotation.subtitle = mediaURL
+            
+            annotations.append( annotation )
+        }
+        
+        self.mapView.addAnnotations(annotations)
+        self.mapView.showAnnotations(annotations, animated: true)
     }
     
     // MARK: - MKMapViewDelegate

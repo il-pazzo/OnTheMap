@@ -16,6 +16,11 @@
 		BB0297B6230504B0004DB49E /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297B5230504B0004DB49E /* UIStoryboard.swift */; };
 		BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297B7230504E2004DB49E /* MapViewController.swift */; };
 		BB0297BC230543CD004DB49E /* PinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297BB230543CD004DB49E /* PinListViewController.swift */; };
+		BB0297BF23086F2B004DB49E /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297BE23086F2B004DB49E /* ParseClient.swift */; };
+		BB0297C223087E74004DB49E /* StudentLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C123087E74004DB49E /* StudentLocations.swift */; };
+		BB0297C423087F0C004DB49E /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C323087F0C004DB49E /* StudentLocation.swift */; };
+		BB0297C723088098004DB49E /* StudentLocationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C623088098004DB49E /* StudentLocationsModel.swift */; };
+		BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C92308967D004DB49E /* StudentLocationsLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +35,11 @@
 		BB0297B5230504B0004DB49E /* UIStoryboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStoryboard.swift; sourceTree = "<group>"; };
 		BB0297B7230504E2004DB49E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BB0297BB230543CD004DB49E /* PinListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinListViewController.swift; sourceTree = "<group>"; };
+		BB0297BE23086F2B004DB49E /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		BB0297C123087E74004DB49E /* StudentLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocations.swift; sourceTree = "<group>"; };
+		BB0297C323087F0C004DB49E /* StudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		BB0297C623088098004DB49E /* StudentLocationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationsModel.swift; sourceTree = "<group>"; };
+		BB0297C92308967D004DB49E /* StudentLocationsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationsLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +76,10 @@
 				BB0297B223050459004DB49E /* Extensions */,
 				BB0297B02305042F004DB49E /* View Controllers */,
 				BB0297B123050449004DB49E /* Storyboards */,
+				BB0297BD23086EFA004DB49E /* Network Clients */,
+				BB0297C023087D6F004DB49E /* Network Results */,
+				BB0297C52308803B004DB49E /* Model */,
+				BB0297C823089655004DB49E /* ModelController */,
 				BB0297A423050232004DB49E /* Assets.xcassets */,
 				BB0297A923050232004DB49E /* Info.plist */,
 			);
@@ -106,6 +120,39 @@
 				BB0297B5230504B0004DB49E /* UIStoryboard.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BB0297BD23086EFA004DB49E /* Network Clients */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297BE23086F2B004DB49E /* ParseClient.swift */,
+			);
+			path = "Network Clients";
+			sourceTree = "<group>";
+		};
+		BB0297C023087D6F004DB49E /* Network Results */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297C323087F0C004DB49E /* StudentLocation.swift */,
+				BB0297C123087E74004DB49E /* StudentLocations.swift */,
+			);
+			path = "Network Results";
+			sourceTree = "<group>";
+		};
+		BB0297C52308803B004DB49E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297C623088098004DB49E /* StudentLocationsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BB0297C823089655004DB49E /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				BB0297C92308967D004DB49E /* StudentLocationsLoader.swift */,
+			);
+			path = ModelController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,11 +226,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB0297C423087F0C004DB49E /* StudentLocation.swift in Sources */,
 				BB0297B6230504B0004DB49E /* UIStoryboard.swift in Sources */,
+				BB0297C723088098004DB49E /* StudentLocationsModel.swift in Sources */,
 				BB0297A023050230004DB49E /* LoginViewController.swift in Sources */,
+				BB0297BF23086F2B004DB49E /* ParseClient.swift in Sources */,
 				BB0297BC230543CD004DB49E /* PinListViewController.swift in Sources */,
+				BB0297C223087E74004DB49E /* StudentLocations.swift in Sources */,
 				BB02979E23050230004DB49E /* AppDelegate.swift in Sources */,
 				BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */,
+				BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */,
 				BB0297B423050483004DB49E /* UIViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
