@@ -13,6 +13,7 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     let mapImage = UIImage(named: "icon_pin")
+    var mapImageDisabled = UIImage(named: "icon_pin_disabled")
     
     let colourForValidURL = UIColor.black
     let colourForInvalidURL = UIColor.lightGray
@@ -65,10 +66,16 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
         let loc = StudentLocationsModel.studentLocations[ indexPath.row ]
         
         cell.textLabel?.text = loc.fullName
-        cell.imageView?.image = mapImage
         cell.detailTextLabel?.text = loc.uniqueKey
         
-        cell.textLabel?.textColor = loc.isValidURL ? colourForValidURL : colourForInvalidURL
+        if loc.isValidURL {
+            cell.textLabel?.textColor = colourForValidURL
+            cell.imageView?.image = mapImage
+        }
+        else {
+            cell.textLabel?.textColor = colourForInvalidURL
+            cell.imageView?.image = mapImageDisabled
+        }
         
         return cell
     }
