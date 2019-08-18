@@ -12,7 +12,6 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var tableView: UITableView!
     
-    let names = hardCodedNameData()
     let mapImage = UIImage(named: "icon_pin")
     
     let colourForValidURL = UIColor.black
@@ -72,10 +71,5 @@ class PinListViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.textLabel?.textColor = loc.isValidURL ? colourForValidURL : colourForInvalidURL
         
         return cell
-    }
-    
-    class func hardCodedNameData() -> [String] {
-        
-        return ["Mary", "Joe", "Billy Bob"]
     }
 }
