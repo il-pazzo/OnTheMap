@@ -17,12 +17,15 @@ class PinListViewController: UIViewController {
     
     let colourForValidURL = UIColor.black
     let colourForInvalidURL = UIColor.lightGray
+
+    let mapButton = UIImage(named: "icon_pin")
+    var newStudentLocation: StudentLocation?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
-        navigationItem.title = AppDelegate.appName
+        configureNavigationBar()
         
         StudentLocationsLoader.loadStudentLocationsIfEmpty { (error) in
             self.tableView.reloadData()
@@ -31,6 +34,31 @@ class PinListViewController: UIViewController {
                 print(error!)
             }
         }
+    }
+    
+    private func configureNavigationBar() {
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        navigationItem.title = AppDelegate.appName
+    }
+
+    @objc private func promptForNewLocation() {
+        
+        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: "navToLocationPrompts" ) as! UINavigationController
+        let rc = nc.topViewController as! PromptForLocationController
+        rc.newStudentLocationHandler = self
+        
+        present( nc, animated: true )
+    }
+    private func addStudentLocation( loc: StudentLocation? ) {
+        
+        guard let loc = loc else {
+            return
+        }
+
+        StudentLocationsModel.studentLocations.insert(loc, at: 0)
+        tableView.reloadData()
     }
     
     @objc private func refreshStudentLocations() {
@@ -90,5 +118,14 @@ extension PinListViewController: UITableViewDelegate, UITableViewDataSource {
         let loc = StudentLocationsModel.studentLocations[ indexPath.row ]
         
         UIApplication.shared.open(URL(string: loc.mediaURL)!, options: [:], completionHandler: nil)
+    }
+}
+
+// MARK: - NewStudentLocation protocol
+
+extension PinListViewController: NewStudentLocation {
+    
+    func handleNewStudentLocation() {
+        addStudentLocation(loc: newStudentLocation)
     }
 }

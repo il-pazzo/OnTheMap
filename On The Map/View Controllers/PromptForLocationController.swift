@@ -17,6 +17,8 @@ class PromptForLocationController: UIViewController {
     
     let placeholderText = "Enter Your Location Here"
     
+    var newStudentLocationHandler: NewStudentLocation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,9 +68,6 @@ class PromptForLocationController: UIViewController {
     
     @IBAction func findEnteredLocationOnMap(_ sender: UIButton) {
         
-//        locationTextField.resignFirstResponder()
-//        endEditingOnTap()
-        
         guard let locationText = locationTextField.text,
                 !locationText.isEmpty,
                 locationText != placeholderText
@@ -96,7 +95,9 @@ class PromptForLocationController: UIViewController {
         
         let vc = PromptForLinkController.instantiate() as! PromptForLinkController
         vc.coordinate = placemark.location?.coordinate
+        vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
+        
         print( locationTextField.text!,
                placemark.location!.coordinate.latitude,
                placemark.location!.coordinate.longitude )
@@ -104,15 +105,9 @@ class PromptForLocationController: UIViewController {
     private func fakeHandleLocationResult() {
 
         let vc = PromptForLinkController.instantiate() as! PromptForLinkController
-//        vc.coordinate = placemark.location?.coordinate
+        vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
-//        self.show(vc, sender: self)
     }
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        let vc = segue.destination as! PromptForLinkController
-//        vc.coordinate = nil
-//    }
 }
 
 extension PromptForLocationController: UITextFieldDelegate {

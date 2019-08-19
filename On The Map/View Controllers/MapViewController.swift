@@ -16,20 +16,20 @@ class MapViewController: UIViewController {
     let mapButton = UIImage(named: "icon_pin")
     let detailButton = UIButton(type: .detailDisclosure)
     let customButton = UIButton(type: .custom)
+    var newStudentLocation: StudentLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavigationBar()
+        StudentLocationsLoader.loadStudentLocationsIfEmpty(completion: mapAllStudentLocations(error:))
+    }
+    
+    private func configureNavigationBar() {
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
         navigationItem.title = AppDelegate.appName
-
-        StudentLocationsLoader.loadStudentLocationsIfEmpty(completion: mapAllStudentLocations(error:))
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        // TODO: provide more robust mechanism for updating annotations when new one added
-        mapView.removeAnnotations( mapView.annotations )
-        mapAllStudentLocations( error: nil )
     }
     
     private func addStudentLocation( loc: StudentLocation? ) {
@@ -40,7 +40,6 @@ class MapViewController: UIViewController {
         
         let annotation = buildPointAnnotationFrom(loc: loc)
         mapView.addAnnotation( annotation )
-        mapView.showAnnotations( [annotation], animated: true )
     }
 
     @objc private func refreshStudentLocations() {
@@ -52,7 +51,8 @@ class MapViewController: UIViewController {
     @objc private func promptForNewLocation() {
         
         let nc = UIStoryboard.main.instantiateViewController( withIdentifier: "navToLocationPrompts" ) as! UINavigationController
-//        let rc = nc.topViewController as! PromptForLocationController
+        let rc = nc.topViewController as! PromptForLocationController
+        rc.newStudentLocationHandler = self
         
         present( nc, animated: true )
     }
@@ -135,3 +135,11 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
 }
+
+extension MapViewController: NewStudentLocation {
+    
+    func handleNewStudentLocation() {
+        addStudentLocation(loc: newStudentLocation)
+    }
+}
+

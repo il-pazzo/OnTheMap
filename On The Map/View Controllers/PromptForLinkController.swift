@@ -16,6 +16,7 @@ class PromptForLinkController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     let placeholderText = "Enter a Link to Share Here"
+    var newStudentLocationHandler: NewStudentLocation?
 
     var coordinate: CLLocationCoordinate2D?
     // Rome, italy 41.889282 12.4935822
@@ -71,8 +72,11 @@ class PromptForLinkController: UIViewController {
     @IBAction func shareLocation(_ sender: Any) {
         
         let newLoc = buildStudentLocation()
-        StudentLocationsModel.studentLocations.insert( newLoc, at: 0 )
-        self.dismiss(animated: true, completion: nil)
+//        StudentLocationsModel.studentLocations.insert( newLoc, at: 0 )
+        
+        newStudentLocationHandler?.newStudentLocation = newLoc
+        self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
+//        self.dismiss(animated: true, completion: nil)
     }
     private func buildStudentLocation() -> StudentLocation {
         
