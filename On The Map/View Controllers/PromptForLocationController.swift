@@ -24,7 +24,8 @@ class PromptForLocationController: UIViewController {
         
         configureNavigationBar()
         configureTopText()
-        configureLocationTextFieldAsManualPlaceholder()
+//        configureLocationTextFieldAsManualPlaceholder()
+        configureLocationTextFieldWithStandardPlaceholder()
         
         self.dismissKeyboardOnTapOutsideField()
     }
@@ -60,6 +61,21 @@ class PromptForLocationController: UIViewController {
         
         locationTextField.text = placeholderText
         locationTextField.returnKeyType = .done
+    }
+    private func configureLocationTextFieldWithStandardPlaceholder() {
+        
+        locationTextField.returnKeyType = .done
+        
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.white
+            //            ,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35.0)
+        ]
+        
+        let locationPlaceholder = "Enter Your Location Here"
+        
+        let attributedLocationPlaceholder = NSMutableAttributedString(string: locationPlaceholder,
+                                                                      attributes: textAttributes)
+        locationTextField.attributedPlaceholder = attributedLocationPlaceholder
     }
     
     @objc private func cancelButtonHit() {
@@ -112,23 +128,23 @@ class PromptForLocationController: UIViewController {
 
 extension PromptForLocationController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        if locationTextField.text == placeholderText {
-            locationTextField.text = ""
-        }
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//        if locationTextField.text == placeholderText {
+//            locationTextField.text = ""
+//        }
+//    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         locationTextField.resignFirstResponder()
         return true
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        if locationTextField.text?.isEmpty ?? true {
-            locationTextField.text = placeholderText
-        }
-    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//
+//        if locationTextField.text?.isEmpty ?? true {
+//            locationTextField.text = placeholderText
+//        }
+//    }
 }
 
 extension PromptForLocationController {

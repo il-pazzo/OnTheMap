@@ -12,7 +12,7 @@ import MapKit
 class PromptForLinkController: UIViewController {
 
     @IBOutlet weak var linkContainerView: UIView!
-    @IBOutlet weak var linkField: UITextField!
+    @IBOutlet weak var linkTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
     let placeholderText = "Enter a Link to Share Here"
@@ -30,7 +30,8 @@ class PromptForLinkController: UIViewController {
         self.dismissKeyboardOnTapOutsideField()
 
         configureNavigationBar()
-        configureLinkTextFieldAsManualPlaceholder()
+//        configureLinkTextFieldAsManualPlaceholder()
+        configureLinkTextFieldWithStandardPlaceholder()
 
         showMapPin()
         print( "date:", NSDate())
@@ -46,9 +47,25 @@ class PromptForLinkController: UIViewController {
     }
     private func configureLinkTextFieldAsManualPlaceholder() {
         
-        linkField.text = placeholderText
-        linkField.returnKeyType = .done
+        linkTextField.text = placeholderText
+        linkTextField.returnKeyType = .done
     }
+    private func configureLinkTextFieldWithStandardPlaceholder() {
+        
+        linkTextField.returnKeyType = .done
+        
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.white
+            //            ,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35.0)
+        ]
+        
+        let linkPlaceholder = "Enter Your Location Here"
+        
+        let attributedLinkPlaceholder = NSMutableAttributedString(string: linkPlaceholder,
+                                                                  attributes: textAttributes)
+        linkTextField.attributedPlaceholder = attributedLinkPlaceholder
+    }
+
     @objc private func cancelButtonHit() {
         
         self.dismiss(animated: true, completion: nil)
@@ -96,23 +113,23 @@ class PromptForLinkController: UIViewController {
 
 extension PromptForLinkController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        if linkField.text == placeholderText {
-            linkField.text = ""
-        }
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//        if linkField.text == placeholderText {
+//            linkField.text = ""
+//        }
+//    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        linkField.resignFirstResponder()
+        linkTextField.resignFirstResponder()
         return true
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        if linkField.text?.isEmpty ?? true {
-            linkField.text = placeholderText
-        }
-    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//
+//        if linkField.text?.isEmpty ?? true {
+//            linkField.text = placeholderText
+//        }
+//    }
 }
 extension PromptForLinkController {
     
