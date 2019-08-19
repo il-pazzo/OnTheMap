@@ -21,6 +21,8 @@
 		BB0297C423087F0C004DB49E /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C323087F0C004DB49E /* StudentLocation.swift */; };
 		BB0297C723088098004DB49E /* StudentLocationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C623088098004DB49E /* StudentLocationsModel.swift */; };
 		BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297C92308967D004DB49E /* StudentLocationsLoader.swift */; };
+		BB0297D0230A1580004DB49E /* PromptForLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297CF230A1580004DB49E /* PromptForLocationController.swift */; };
+		BB0A2A31230A832100703126 /* PromptForLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A30230A832100703126 /* PromptForLinkController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		BB0297C323087F0C004DB49E /* StudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		BB0297C623088098004DB49E /* StudentLocationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationsModel.swift; sourceTree = "<group>"; };
 		BB0297C92308967D004DB49E /* StudentLocationsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationsLoader.swift; sourceTree = "<group>"; };
+		BB0297CF230A1580004DB49E /* PromptForLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptForLocationController.swift; sourceTree = "<group>"; };
+		BB0A2A30230A832100703126 /* PromptForLinkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptForLinkController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,8 @@
 				BB02979F23050230004DB49E /* LoginViewController.swift */,
 				BB0297B7230504E2004DB49E /* MapViewController.swift */,
 				BB0297BB230543CD004DB49E /* PinListViewController.swift */,
+				BB0297CF230A1580004DB49E /* PromptForLocationController.swift */,
+				BB0A2A30230A832100703126 /* PromptForLinkController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB0297D0230A1580004DB49E /* PromptForLocationController.swift in Sources */,
 				BB0297C423087F0C004DB49E /* StudentLocation.swift in Sources */,
 				BB0297B6230504B0004DB49E /* UIStoryboard.swift in Sources */,
 				BB0297C723088098004DB49E /* StudentLocationsModel.swift in Sources */,
@@ -236,6 +243,7 @@
 				BB02979E23050230004DB49E /* AppDelegate.swift in Sources */,
 				BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */,
 				BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */,
+				BB0A2A31230A832100703126 /* PromptForLinkController.swift in Sources */,
 				BB0297B423050483004DB49E /* UIViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,22 +13,48 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    let mapButton = UIImage(named: "icon_pin")
     let detailButton = UIButton(type: .detailDisclosure)
     let customButton = UIButton(type: .custom)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
         navigationItem.title = AppDelegate.appName
 
         StudentLocationsLoader.loadStudentLocationsIfEmpty(completion: mapAllStudentLocations(error:))
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        // TODO: provide more robust mechanism for updating annotations when new one added
+        mapView.removeAnnotations( mapView.annotations )
+        mapAllStudentLocations( error: nil )
+    }
+    
+    private func addStudentLocation( loc: StudentLocation? ) {
+        
+        guard let loc = loc else {
+            return
+        }
+        
+        let annotation = buildPointAnnotationFrom(loc: loc)
+        mapView.addAnnotation( annotation )
+        mapView.showAnnotations( [annotation], animated: true )
     }
 
     @objc private func refreshStudentLocations() {
         
         mapView.removeAnnotations( mapView.annotations )
         StudentLocationsLoader.refreshStudentLocations( completion: mapAllStudentLocations(error:))
+    }
+    
+    @objc private func promptForNewLocation() {
+        
+        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: "navToLocationPrompts" ) as! UINavigationController
+//        let rc = nc.topViewController as! PromptForLocationController
+        
+        present( nc, animated: true )
     }
 
     private func mapAllStudentLocations(error: Error?) {
@@ -37,23 +63,28 @@ class MapViewController: UIViewController {
         
         for loc in StudentLocationsModel.studentLocations {
             
-            let lat = loc.latitude
-            let long = loc.longitude
-            let coordinate = CLLocationCoordinate2D( latitude: lat, longitude: long)
-            
-            let name = loc.fullName
-            let mediaURL = loc.mediaURL
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = name
-            annotation.subtitle = loc.isValidURL ? mediaURL : nil
-            
+            let annotation = buildPointAnnotationFrom(loc: loc)
             annotations.append( annotation )
         }
         
         self.mapView.addAnnotations(annotations)
         self.mapView.showAnnotations(annotations, animated: true)
+    }
+    private func buildPointAnnotationFrom( loc: StudentLocation ) -> MKPointAnnotation {
+        
+        let lat = loc.latitude
+        let long = loc.longitude
+        let coordinate = CLLocationCoordinate2D( latitude: lat, longitude: long)
+        
+        let name = loc.fullName
+        let mediaURL = loc.mediaURL
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = name
+        annotation.subtitle = loc.isValidURL ? mediaURL : nil
+        
+        return annotation
     }
 }
     
