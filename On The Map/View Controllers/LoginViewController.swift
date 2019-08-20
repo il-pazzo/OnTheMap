@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signUpTextView: UITextView!
     
     let segueIdentifierSuccessfulLogin = "completeLogin"
     
@@ -23,6 +24,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         configureTextFields()
+        configureSignUpTextView()
     }
     
     private func configureTextFields() {
@@ -41,6 +43,24 @@ class LoginViewController: UIViewController {
         let attributedPasswordPlaceholder = NSMutableAttributedString( string: passwordPlaceholder,
                                                                        attributes: textAttributes )
         passwordTextField.attributedPlaceholder = attributedPasswordPlaceholder
+    }
+    
+    private func configureSignUpTextView() {
+        
+        let linkText = "Don't have an account? Sign up"
+        let linkAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.link: URL(string: "https://auth.udacity.com/sign-up")!,
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)
+        ]
+        
+        let attributedLinkText = NSMutableAttributedString( string: linkText,
+                                                            attributes: linkAttributes )
+        signUpTextView.attributedText = attributedLinkText
+        signUpTextView.isSelectable = true
+        signUpTextView.isEditable = false
+        signUpTextView.textAlignment = .center
+        signUpTextView.delaysContentTouches = false
     }
 
     // MARK: - Process login attempt
