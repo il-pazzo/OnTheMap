@@ -25,6 +25,28 @@ struct StudentLocation: Codable
 
 extension StudentLocation
 {
+    init( uniqueKey: String,
+          firstName: String,
+          lastName: String,
+          mapString: String,
+          mediaURL: String ) {
+        
+        self.uniqueKey  = uniqueKey
+        self.objectId   = ""
+        self.createdAt  = "\(NSDate())"
+        self.updatedAt  = "\(NSDate())"
+        
+        self.firstName  = firstName
+        self.lastName   = lastName
+        self.longitude  = 0.0
+        self.latitude   = 0.0
+        self.mapString  = mapString
+        self.mediaURL   = mediaURL
+    }
+}
+
+extension StudentLocation
+{
     var fullName: String {
         if firstName.isEmpty && lastName.isEmpty {
             return "?"

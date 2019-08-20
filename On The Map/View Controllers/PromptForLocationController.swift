@@ -17,14 +17,16 @@ class PromptForLocationController: UIViewController {
     
     let placeholderText = "Enter Your Location Here"
     
+    // set by caller
     var newStudentLocationHandler: NewStudentLocation?
     
+    
+    // MARK: - Code begins
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureNavigationBar()
         configureTopText()
-//        configureLocationTextFieldAsManualPlaceholder()
         configureLocationTextFieldWithStandardPlaceholder()
         
         self.dismissKeyboardOnTapOutsideField()
@@ -57,18 +59,12 @@ class PromptForLocationController: UIViewController {
         topTextLabel.attributedText = attributedQuestionText
     }
     
-    private func configureLocationTextFieldAsManualPlaceholder() {
-        
-        locationTextField.text = placeholderText
-        locationTextField.returnKeyType = .done
-    }
     private func configureLocationTextFieldWithStandardPlaceholder() {
         
         locationTextField.returnKeyType = .done
         
         let textAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.foregroundColor: UIColor.white
-            //            ,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35.0)
         ]
         
         let locationPlaceholder = "Enter Your Location Here"
@@ -91,9 +87,9 @@ class PromptForLocationController: UIViewController {
             return
         }
 
-        fakeHandleLocationResult()
-//        let geocoder = CLGeocoder()
-//        geocoder.geocodeAddressString( locationText, completionHandler: handleFindLocationResult(placemarks:error:))
+//        fakeHandleLocationResult()
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString( locationText, completionHandler: handleFindLocationResult(placemarks:error:))
     }
     
     private func handleFindLocationResult( placemarks: [CLPlacemark]?, error: Error? ) {
@@ -109,44 +105,35 @@ class PromptForLocationController: UIViewController {
             return
         }
         
+        print( locationTextField.text!,
+               placemark.location!.coordinate.latitude,
+               placemark.location!.coordinate.longitude )
+
         let vc = PromptForLinkController.instantiate() as! PromptForLinkController
         vc.coordinate = placemark.location?.coordinate
         vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        print( locationTextField.text!,
-               placemark.location!.coordinate.latitude,
-               placemark.location!.coordinate.longitude )
     }
-    private func fakeHandleLocationResult() {
-
-        let vc = PromptForLinkController.instantiate() as! PromptForLinkController
-        vc.newStudentLocationHandler = newStudentLocationHandler
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
+//    private func fakeHandleLocationResult() {
+//
+//        let vc = PromptForLinkController.instantiate() as! PromptForLinkController
+//        vc.newStudentLocationHandler = newStudentLocationHandler
+//        self.navigationController?.pushViewController(vc, animated: true)
+//    }
 }
 
+// MARK: - textfield delegate method to dismiss the keyboard
 extension PromptForLocationController: UITextFieldDelegate {
     
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//        if locationTextField.text == placeholderText {
-//            locationTextField.text = ""
-//        }
-//    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         locationTextField.resignFirstResponder()
         return true
     }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//        if locationTextField.text?.isEmpty ?? true {
-//            locationTextField.text = placeholderText
-//        }
-//    }
 }
 
+// MARK: - dismiss keyboard if tapped outside text field
+// (technique found on StackOverflow)
 extension PromptForLocationController {
     
     func dismissKeyboardOnTapOutsideField() {

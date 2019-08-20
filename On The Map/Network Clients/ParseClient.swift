@@ -14,6 +14,8 @@ class ParseClient
     static let kSkip = "skip"
     static let kOrder = "order"
     
+    static var studentInfo: GetUserInfoResponse?
+    
     struct Auth
     {
         static var key = ""
@@ -41,6 +43,7 @@ class ParseClient
         // endpoints with "goofy" (strip-off-first-5-chars) response
         case createSession
         case killSession
+        case getUserInfo( userId: String )
         
         var stringValue: String {
             switch self {
@@ -48,19 +51,21 @@ class ParseClient
                 return "\(Endpoints.base)/StudentLocation\(parmMapToString(parmMap))"
             case .newStudentLocation:
                 return "\(Endpoints.base)/StudentLocation"
-            case .updateStudentLocation(let objectId):
+            case .updateStudentLocation( let objectId ):
                 return "\(Endpoints.base)/StudentLocation/\(objectId)"
                 
             case .createSession:
                 return "\(Endpoints.base)/session"
             case .killSession:
                 return "\(Endpoints.base)/session"
+            case .getUserInfo( let userId ):
+                return "\(Endpoints.base)/users/\(userId)"
             }
         }
         
         var hasGoofyResponse: Bool {
             switch self {
-            case .createSession, .killSession:
+            case .createSession, .killSession, .getUserInfo:
                 return true
             default:
                 return false
@@ -111,6 +116,35 @@ class ParseClient
         }
     }
     
+    class func getUserInfo( userId: String, completion: @escaping (Bool, Error?) -> Void ) {
+        
+        let endpoint = Endpoints.getUserInfo( userId: userId )
+        taskForGETRequest( url: endpoint.url,
+                           hasGoofyResponse: endpoint.hasGoofyResponse,
+                           responseType: GetUserInfoResponse.self
+        ) { (response, error) in
+            
+            guard let response = response else {
+                completion( false, error )
+                return
+            }
+            
+//            let loc = studentLocation( from: response )
+            studentInfo = response
+            completion( true, nil )
+        }
+    }
+    private class func studentLocation( from userInfo: GetUserInfoResponse ) -> StudentLocation {
+        
+        let loc = StudentLocation( uniqueKey: userInfo.key,
+                                   firstName: userInfo.firstName ?? "",
+                                   lastName: userInfo.lastName ?? "",
+                                   mapString: userInfo.mailingAddress ?? "",
+                                   mediaURL: userInfo.mediaUrl ?? "" )
+        
+        return loc
+    }
+    
     @discardableResult class func taskForGETRequest<ResponseType: Decodable>(
         url: URL,
         hasGoofyResponse: Bool,
@@ -122,14 +156,17 @@ class ParseClient
                 DispatchQueue.main.async { completion(nil, error) }
                 return
             }
+
+            let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
             let decoder = JSONDecoder()
             do {
-                let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
                 let responseObject = try decoder.decode(responseType, from: tweakedData)
                 DispatchQueue.main.async { completion(responseObject, nil) }
             }
             catch {
                 let savedError = error
+                print( "data was: ", String(data: tweakedData, encoding: .utf8)! )
+                print( "parse POST failed: \(error)")
 //                do {
 //                    let tmdbResponse = try decoder.decode( TMDBResponse.self, from: data )
 //                    DispatchQueue.main.async { completion(nil, tmdbResponse) }
@@ -150,7 +187,7 @@ class ParseClient
         taskForPOSTRequest( url: endpoint.url,
                             methodType: MethodType.post.rawValue,
                             hasGoofyResponse: endpoint.hasGoofyResponse,
-                            responseType: ParsePostStudentLocationResult.self,
+                            responseType: ParsePostStudentLocationResponse.self,
                             body: loc ) { (response, error) in
             
             guard let response = response else {
@@ -168,7 +205,7 @@ class ParseClient
         taskForPOSTRequest( url: endpoint.url,
                             methodType: MethodType.put.rawValue,
                             hasGoofyResponse: endpoint.hasGoofyResponse,
-                            responseType: ParsePutStudentLocationResult.self,
+                            responseType: ParsePutStudentLocationResponse.self,
                             body: loc ) { (response, error) in
             
             guard let _ = response else {
@@ -239,6 +276,7 @@ class ParseClient
             }
             catch {
                 let savedError = error
+                print( "data was: ", String(data: tweakedData, encoding: .utf8)! )
                 print( "parse POST failed: \(error)")
 //                do {
 //                    let tmdbResponse = try decoder.decode( TMDBResponse.self, from: data )

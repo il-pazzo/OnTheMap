@@ -16,8 +16,12 @@ class MapViewController: UIViewController {
     let mapButton = UIImage(named: "icon_pin")
     let detailButton = UIButton(type: .detailDisclosure)
     let customButton = UIButton(type: .custom)
+    
+    // required by NewStudentLocation protocol
     var newStudentLocation: StudentLocation?
     
+    
+    // MARK: - Code begins
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,16 +37,6 @@ class MapViewController: UIViewController {
         
         navigationItem.title = AppDelegate.appName
     }
-    
-    private func addStudentLocation( loc: StudentLocation? ) {
-        
-        guard let loc = loc else {
-            return
-        }
-        
-        let annotation = buildPointAnnotationFrom(loc: loc)
-        mapView.addAnnotation( annotation )
-    }
 
     @objc private func refreshStudentLocations() {
         
@@ -52,13 +46,15 @@ class MapViewController: UIViewController {
     
     @objc private func promptForNewLocation() {
         
-        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: "navToLocationPrompts" ) as! UINavigationController
+        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: AppDelegate.navControllerIdentifierPromptForNewLocation ) as! UINavigationController
+        
         let rc = nc.topViewController as! PromptForLocationController
         rc.newStudentLocationHandler = self
         
         present( nc, animated: true )
     }
 
+    // MARK: - Show all annotations on map
     private func mapAllStudentLocations(error: Error?) {
         
         var annotations = [MKPointAnnotation]()
@@ -128,7 +124,10 @@ extension MapViewController: MKMapViewDelegate {
     // This delegate method is implemented to respond to taps. It opens the system browser
     // to the URL specified in the annotationViews subtitle property.
     //
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView( _ mapView: MKMapView,
+                  annotationView view: MKAnnotationView,
+                  calloutAccessoryControlTapped control: UIControl) {
+        
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
@@ -138,10 +137,21 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
+// MARK: - NewStudentLocation protocol
 extension MapViewController: NewStudentLocation {
     
     func handleNewStudentLocation() {
         addStudentLocation(loc: newStudentLocation)
+    }
+    
+    private func addStudentLocation( loc: StudentLocation? ) {
+        
+        guard let loc = loc else {
+            return
+        }
+        
+        let annotation = buildPointAnnotationFrom(loc: loc)
+        mapView.addAnnotation( annotation )
     }
 }
 

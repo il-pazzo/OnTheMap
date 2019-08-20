@@ -14,7 +14,7 @@ struct LoginResponse: Codable
     let session: Session
 
     struct Account: Codable {
-        let registered: String
+        let registered: Bool
         let key: String
     }
     struct Session: Codable {

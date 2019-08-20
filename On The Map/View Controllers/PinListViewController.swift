@@ -22,6 +22,7 @@ class PinListViewController: UIViewController {
     var newStudentLocation: StudentLocation?
 
     
+    // MARK: - Code begins
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,20 +48,12 @@ class PinListViewController: UIViewController {
 
     @objc private func promptForNewLocation() {
         
-        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: "navToLocationPrompts" ) as! UINavigationController
+        let nc = UIStoryboard.main.instantiateViewController( withIdentifier: AppDelegate.navControllerIdentifierPromptForNewLocation ) as! UINavigationController
+        
         let rc = nc.topViewController as! PromptForLocationController
         rc.newStudentLocationHandler = self
         
         present( nc, animated: true )
-    }
-    private func addStudentLocation( loc: StudentLocation? ) {
-        
-        guard let loc = loc else {
-            return
-        }
-
-        StudentLocationsModel.studentLocations.insert(loc, at: 0)
-        tableView.reloadData()
     }
     
     @objc private func refreshStudentLocations() {
@@ -69,24 +62,9 @@ class PinListViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    private func filterOutBadData( _ locations: [StudentLocation]) -> [StudentLocation] {
-        
-        var results = [StudentLocation]()
-        var keys = Set<String>()
-        
-        for loc in locations {
-            guard loc.uniqueKey != "nil" else { continue }
-            guard !keys.contains( loc.uniqueKey ) else { continue }
-            
-            keys.insert( loc.uniqueKey )
-            results.append( loc )
-        }
-        
-        return results
-    }
 }
 
+// MARK: - tableview delegate, data source
 extension PinListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,5 +107,14 @@ extension PinListViewController: NewStudentLocation {
     
     func handleNewStudentLocation() {
         addStudentLocation(loc: newStudentLocation)
+    }
+    private func addStudentLocation( loc: StudentLocation? ) {
+        
+        guard let loc = loc else {
+            return
+        }
+        
+        StudentLocationsModel.studentLocations.insert(loc, at: 0)
+        tableView.reloadData()
     }
 }

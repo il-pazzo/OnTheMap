@@ -10,6 +10,13 @@ import Foundation
 
 struct LoginCredentials: Codable
 {
-    let username: String
-    let password: String
+    let udacity: [String : String]
+}
+
+extension LoginCredentials
+{
+    init( username: String, password: String ) {
+        let dict = [ "username": username, "password": password ]
+        self.udacity = dict
+    }
 }

@@ -23,6 +23,7 @@ class PromptForLinkController: UIViewController {
     let lng = 12.4935822
 
     
+    // MARK: - Code begins
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +33,6 @@ class PromptForLinkController: UIViewController {
         configureLinkTextFieldWithStandardPlaceholder()
 
         showMapPin()
-        print( "date:", NSDate())
     }
     private func configureNavigationBar() {
         
@@ -52,7 +52,7 @@ class PromptForLinkController: UIViewController {
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        let linkPlaceholder = "Enter Your Location Here"
+        let linkPlaceholder = "Enter a Link to Share Here"
         
         let attributedLinkPlaceholder = NSMutableAttributedString(string: linkPlaceholder,
                                                                   attributes: textAttributes)
@@ -89,7 +89,7 @@ class PromptForLinkController: UIViewController {
     private func buildStudentLocation() -> StudentLocation {
         
         let now = "\(NSDate())"
-        return StudentLocation(uniqueKey: "gckey",
+        return StudentLocation(uniqueKey: ParseClient.Auth.key,
                                objectId: "gcobjid",
                                createdAt: now,
                                updatedAt: now,

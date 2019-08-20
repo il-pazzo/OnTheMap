@@ -14,7 +14,11 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
+    let segueIdentifierSuccessfulLogin = "completeLogin"
+    
 
+    // MARK: - Code begins
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,7 +29,6 @@ class LoginViewController: UIViewController {
         
         let textAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.foregroundColor: UIColor.white
-//            ,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35.0)
         ]
 
         let emailPlaceholder = "Email"
@@ -40,10 +43,36 @@ class LoginViewController: UIViewController {
         passwordTextField.attributedPlaceholder = attributedPasswordPlaceholder
     }
 
+    // MARK: - Process login attempt
+    
     @IBAction func loginButtonTapped( _ sender: UIButton ) {
         
-        ParseClient.Auth.key = "key"
-        self.performSegue( withIdentifier: "completeLogin", sender: nil )
+        guard let username = emailTextField.text,
+            let password = passwordTextField.text
+            else { return }
+        
+        ParseClient.createSession(username: username, password: password, completion: handleLoginResult(success:error:))
+    }
+    
+    private func handleLoginResult( success: Bool, error: Error? ) {
+        
+        if !success {
+            print( "login failed: \(error!)" )
+            return
+        }
+        
+        ParseClient.getUserInfo(userId: ParseClient.Auth.key, completion: handleGetUserInfoResult(success:error:))
+    }
+    
+    private func handleGetUserInfoResult( success: Bool, error: Error? ) {
+        
+        if !success {
+            print( "user info failed: \(error!)" )
+            return
+        }
+        
+        print( "userinfo = ", ParseClient.studentInfo! )
+        self.performSegue( withIdentifier: segueIdentifierSuccessfulLogin, sender: nil )
     }
 }
 

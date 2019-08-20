@@ -24,10 +24,11 @@
 		BB0297D0230A1580004DB49E /* PromptForLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0297CF230A1580004DB49E /* PromptForLocationController.swift */; };
 		BB0A2A31230A832100703126 /* PromptForLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A30230A832100703126 /* PromptForLinkController.swift */; };
 		BB0A2A34230B459000703126 /* NewStudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A33230B459000703126 /* NewStudentLocation.swift */; };
-		BB0A2A36230B6B2500703126 /* ParsePutStudentLocationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResult.swift */; };
-		BB0A2A38230B6B6900703126 /* ParsePostStudentLocationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResult.swift */; };
+		BB0A2A36230B6B2500703126 /* ParsePutStudentLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResponse.swift */; };
+		BB0A2A38230B6B6900703126 /* ParsePostStudentLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResponse.swift */; };
 		BB0A2A3A230B7ECA00703126 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */; };
 		BB0A2A3C230B7F0C00703126 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */; };
+		BB0A2A3E230BC43300703126 /* GetUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,10 +51,11 @@
 		BB0297CF230A1580004DB49E /* PromptForLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptForLocationController.swift; sourceTree = "<group>"; };
 		BB0A2A30230A832100703126 /* PromptForLinkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptForLinkController.swift; sourceTree = "<group>"; };
 		BB0A2A33230B459000703126 /* NewStudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStudentLocation.swift; sourceTree = "<group>"; };
-		BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePutStudentLocationResult.swift; sourceTree = "<group>"; };
-		BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePostStudentLocationResult.swift; sourceTree = "<group>"; };
+		BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePutStudentLocationResponse.swift; sourceTree = "<group>"; };
+		BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePostStudentLocationResponse.swift; sourceTree = "<group>"; };
 		BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserInfoResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,10 +154,11 @@
 			children = (
 				BB0297C323087F0C004DB49E /* StudentLocation.swift */,
 				BB0297C123087E74004DB49E /* StudentLocations.swift */,
-				BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResult.swift */,
-				BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResult.swift */,
+				BB0A2A37230B6B6900703126 /* ParsePostStudentLocationResponse.swift */,
+				BB0A2A35230B6B2500703126 /* ParsePutStudentLocationResponse.swift */,
 				BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */,
 				BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */,
+				BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */,
 			);
 			path = "Network Results";
 			sourceTree = "<group>";
@@ -269,10 +272,11 @@
 				BB02979E23050230004DB49E /* AppDelegate.swift in Sources */,
 				BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */,
 				BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */,
-				BB0A2A36230B6B2500703126 /* ParsePutStudentLocationResult.swift in Sources */,
+				BB0A2A3E230BC43300703126 /* GetUserInfoResponse.swift in Sources */,
+				BB0A2A36230B6B2500703126 /* ParsePutStudentLocationResponse.swift in Sources */,
 				BB0A2A31230A832100703126 /* PromptForLinkController.swift in Sources */,
 				BB0297B423050483004DB49E /* UIViewController.swift in Sources */,
-				BB0A2A38230B6B6900703126 /* ParsePostStudentLocationResult.swift in Sources */,
+				BB0A2A38230B6B6900703126 /* ParsePostStudentLocationResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
