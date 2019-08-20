@@ -349,6 +349,7 @@
                         <outlet property="linkContainerView" destination="4W2-bX-8Zu" id="viz-Fy-GFU"/>
                         <outlet property="linkTextField" destination="XX6-LY-1aJ" id="aMd-E4-Xn2"/>
                         <outlet property="mapView" destination="5ND-RR-sai" id="nrj-gY-Ufs"/>
+                        <outlet property="submitButton" destination="8Fx-U3-VvL" id="BPk-sa-rro"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QnT-ZJ-txr" userLabel="First Responder" sceneMemberID="firstResponder"/>

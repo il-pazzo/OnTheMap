@@ -14,14 +14,14 @@ class PromptForLinkController: UIViewController {
     @IBOutlet weak var linkContainerView: UIView!
     @IBOutlet weak var linkTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var submitButton: UIButton!
     
     var newStudentLocationHandler: NewStudentLocation?
 
+    // set by caller
     var coordinate: CLLocationCoordinate2D?
-    // Rome, italy 41.889282 12.4935822
-    let lat = 41.889282
-    let lng = 12.4935822
-
+    var coordinateName: String?
+    
     
     // MARK: - Code begins
     override func viewDidLoad() {
@@ -31,6 +31,7 @@ class PromptForLinkController: UIViewController {
 
         configureNavigationBar()
         configureLinkTextFieldWithStandardPlaceholder()
+        configureSubmitButton()
 
         showMapPin()
     }
@@ -58,6 +59,15 @@ class PromptForLinkController: UIViewController {
                                                                   attributes: textAttributes)
         linkTextField.attributedPlaceholder = attributedLinkPlaceholder
     }
+    
+    private func configureSubmitButton() {
+        
+        if coordinate == nil {
+            submitButton.isEnabled = false
+            submitButton.titleLabel?.text = "No Location"
+            return
+        }
+    }
 
     @objc private func cancelButtonHit() {
         
@@ -65,9 +75,6 @@ class PromptForLinkController: UIViewController {
     }
     private func showMapPin() {
         
-        if coordinate == nil {
-            coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        }
         guard let coordinate = coordinate else {
             return
         }
@@ -76,7 +83,7 @@ class PromptForLinkController: UIViewController {
         annotation.coordinate = coordinate
 
         self.mapView.addAnnotation( annotation )
-        self.mapView.showAnnotations([annotation], animated: true)
+//        self.mapView.showAnnotations([annotation], animated: true)
     }
     
     @IBAction func shareLocation(_ sender: Any) {
@@ -93,12 +100,12 @@ class PromptForLinkController: UIViewController {
                                objectId: "gcobjid",
                                createdAt: now,
                                updatedAt: now,
-                               firstName: "Uknow",
-                               lastName: "Hu",
-                               longitude: lng,
-                               latitude: lat,
-                               mapString: "Iowa",
-                               mediaURL: "https://apple.com")
+                               firstName: ParseClient.studentInfo?.firstName ?? "?",
+                               lastName: ParseClient.studentInfo?.lastName ?? "?",
+                               longitude: coordinate!.longitude,
+                               latitude: coordinate!.latitude,
+                               mapString: coordinateName ?? "?",
+                               mediaURL: linkTextField.text ?? "" )
     }
 }
 

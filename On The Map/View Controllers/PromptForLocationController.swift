@@ -111,6 +111,7 @@ class PromptForLocationController: UIViewController {
 
         let vc = PromptForLinkController.instantiate() as! PromptForLinkController
         vc.coordinate = placemark.location?.coordinate
+        vc.coordinateName = placemark.name ?? locationTextField.text
         vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
     }
