@@ -14,16 +14,56 @@ class ParseClient
     static let kSkip = "skip"
     static let kOrder = "order"
     
+    struct Auth
+    {
+        static var key = ""
+        static var id = ""
+        static var isLoggedIn: Bool {
+            get { return !key.isEmpty }
+            set {
+                if !newValue {
+                    key = ""
+                    id = ""
+                }
+            }
+        }
+    }
+    
     enum Endpoints
     {
         static let base = "https://onthemap-api.udacity.com/v1"
         
-        case getLocations(parmMap: [String:String])
+        // endpoints with "normal" (use-as-is) response
+        case getLocations( parmMap: [String:String] )
+        case newStudentLocation
+        case updateStudentLocation( objectId: String )
+        
+        // endpoints with "goofy" (strip-off-first-5-chars) response
+        case createSession
+        case killSession
         
         var stringValue: String {
             switch self {
             case .getLocations(let parmMap):
                 return "\(Endpoints.base)/StudentLocation\(parmMapToString(parmMap))"
+            case .newStudentLocation:
+                return "\(Endpoints.base)/StudentLocation"
+            case .updateStudentLocation(let objectId):
+                return "\(Endpoints.base)/StudentLocation/\(objectId)"
+                
+            case .createSession:
+                return "\(Endpoints.base)/session"
+            case .killSession:
+                return "\(Endpoints.base)/session"
+            }
+        }
+        
+        var hasGoofyResponse: Bool {
+            switch self {
+            case .createSession, .killSession:
+                return true
+            default:
+                return false
             }
         }
         
@@ -41,12 +81,25 @@ class ParseClient
         }
     }
     
+    enum MethodType: String
+    {
+        case put = "PUT"
+        case post = "POST"
+    }
+    
+    enum MiscNetworkError: Error
+    {
+        case invalidMethodType(String)
+    }
+    
     class func getStudentLocations(completion: @escaping ([StudentLocation], Error?) -> Void) {
         
 //        let parmMap = [ kLimit:"10000", kOrder:"-updatedAt" ]
         let parmMap = [ kLimit:"200", kOrder:"-updatedAt" ]
-        taskForGETRequest(url: Endpoints.getLocations(parmMap: parmMap).url, responseType: StudentLocations.self) {
-            (response, error) in
+        let endpoint = Endpoints.getLocations(parmMap: parmMap)
+        taskForGETRequest( url: endpoint.url,
+                           hasGoofyResponse: endpoint.hasGoofyResponse,
+                           responseType: StudentLocations.self) { (response, error) in
             
             guard let response = response else {
                 completion( [], nil )
@@ -60,6 +113,7 @@ class ParseClient
     
     @discardableResult class func taskForGETRequest<ResponseType: Decodable>(
         url: URL,
+        hasGoofyResponse: Bool,
         responseType: ResponseType.Type,
         completion: @escaping (ResponseType?, Error?) -> Void ) -> URLSessionDataTask {
         
@@ -70,7 +124,8 @@ class ParseClient
             }
             let decoder = JSONDecoder()
             do {
-                let responseObject = try decoder.decode(responseType, from: data)
+                let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
+                let responseObject = try decoder.decode(responseType, from: tweakedData)
                 DispatchQueue.main.async { completion(responseObject, nil) }
             }
             catch {
@@ -87,5 +142,166 @@ class ParseClient
         task.resume()
         
         return task
+    }
+    
+    class func addNewStudentLocation( loc: StudentLocation, completion: @escaping (String?, Error?) -> Void ) {
+        
+        let endpoint = Endpoints.newStudentLocation
+        taskForPOSTRequest( url: endpoint.url,
+                            methodType: MethodType.post.rawValue,
+                            hasGoofyResponse: endpoint.hasGoofyResponse,
+                            responseType: ParsePostStudentLocationResult.self,
+                            body: loc ) { (response, error) in
+            
+            guard let response = response else {
+                completion( nil, error )
+                return
+            }
+            
+            completion( response.objectId, nil )
+        }
+    }
+    
+    class func updateStudentLocation( loc: StudentLocation, completion: @escaping (Bool, Error?) -> Void ) {
+        
+        let endpoint = Endpoints.updateStudentLocation(objectId: loc.objectId)
+        taskForPOSTRequest( url: endpoint.url,
+                            methodType: MethodType.put.rawValue,
+                            hasGoofyResponse: endpoint.hasGoofyResponse,
+                            responseType: ParsePutStudentLocationResult.self,
+                            body: loc ) { (response, error) in
+            
+            guard let _ = response else {
+                completion( false, error )
+                return
+            }
+            
+            completion( true, nil )
+        }
+    }
+    
+    class func createSession( username: String, password: String, completion: @escaping (Bool, Error?) -> Void ) {
+        
+        let loginCredentials = LoginCredentials( username: username, password: password )
+        let endpoint = Endpoints.createSession
+        taskForPOSTRequest(url: endpoint.url,
+                           methodType: MethodType.post.rawValue,
+                           hasGoofyResponse: endpoint.hasGoofyResponse,
+                           responseType: LoginResponse.self,
+                           body: loginCredentials ) { (response, error) in
+                            
+            guard let response = response else {
+                completion( false, error )
+                return
+            }
+            
+            Auth.key = response.account.key
+            Auth.id = response.session.id
+                            
+            completion( true, nil )
+        }
+    }
+    
+    class func taskForPOSTRequest<RequestType: Encodable, ResponseType: Decodable>(
+            url: URL,
+            methodType: String,
+            hasGoofyResponse: Bool,
+            responseType: ResponseType.Type,
+            body: RequestType,
+            completion: @escaping (ResponseType?, Error?) -> Void ) {
+        
+        let supportedMethodTypes = ["PUT", "POST"]
+        guard supportedMethodTypes.contains( methodType ) else {
+            let error = MiscNetworkError.invalidMethodType("Internal error: Expected one of \(supportedMethodTypes); found \(methodType)")
+            DispatchQueue.main.async { completion( nil, error ) }
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = methodType
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type" )
+        
+        let encoder = JSONEncoder()
+        let data = try! encoder.encode(body)
+        request.httpBody = data
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data else {
+                DispatchQueue.main.async { completion( nil, error ) }
+                return
+            }
+            
+            let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
+            let decoder = JSONDecoder()
+            do {
+                let sessionResponse = try decoder.decode(responseType, from: tweakedData)
+                DispatchQueue.main.async { completion( sessionResponse, nil ) }
+            }
+            catch {
+                let savedError = error
+                print( "parse POST failed: \(error)")
+//                do {
+//                    let tmdbResponse = try decoder.decode( TMDBResponse.self, from: data )
+//                    DispatchQueue.main.async { completion( nil, tmdbResponse ) }
+//                }
+//                catch {
+                    DispatchQueue.main.async { completion( nil, savedError ) }
+//                }
+            }
+        }
+        task.resume()
+    }
+    
+    class func killSession( completion: ((Bool, Error?) -> Void)? ) {
+        
+        let endpoint = Endpoints.killSession
+        taskForDELETERequest( url: endpoint.url,
+                              hasGoofyResponse: endpoint.hasGoofyResponse
+        ) { (data, _, error) in
+                            
+            guard let _ = data else {
+                completion?( false, error )
+                return
+            }
+            
+//            print( "killSession:", String(data:data!, encoding:.utf8)! )
+            completion?( true, nil )
+        }
+    }
+    
+    class func taskForDELETERequest(
+            url: URL,
+            hasGoofyResponse: Bool,
+            completion: @escaping (Data?, URLResponse?, Error?) -> Void ) {
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        var xsrfCookie: HTTPCookie? = nil
+        for cookie in HTTPCookieStorage.shared.cookies! {
+            if cookie.name == "XSRF-TOKEN" {
+                xsrfCookie = cookie
+                break
+            }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            if let error = error {
+                DispatchQueue.main.async { completion( nil, response, error ) }
+                return
+            }
+            guard let data = data else {
+                DispatchQueue.main.async { completion( nil, response, error ) }
+                return
+            }
+            
+            let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
+            DispatchQueue.main.async { completion( tweakedData, response, error ) }
+        }
+        task.resume()
     }
 }

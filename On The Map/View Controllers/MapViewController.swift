@@ -28,7 +28,9 @@ class MapViewController: UIViewController {
     private func configureNavigationBar() {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        
         navigationItem.title = AppDelegate.appName
     }
     

@@ -15,7 +15,6 @@ class PromptForLinkController: UIViewController {
     @IBOutlet weak var linkTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
-    let placeholderText = "Enter a Link to Share Here"
     var newStudentLocationHandler: NewStudentLocation?
 
     var coordinate: CLLocationCoordinate2D?
@@ -30,7 +29,6 @@ class PromptForLinkController: UIViewController {
         self.dismissKeyboardOnTapOutsideField()
 
         configureNavigationBar()
-//        configureLinkTextFieldAsManualPlaceholder()
         configureLinkTextFieldWithStandardPlaceholder()
 
         showMapPin()
@@ -45,18 +43,13 @@ class PromptForLinkController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationItem.hidesBackButton = true
     }
-    private func configureLinkTextFieldAsManualPlaceholder() {
-        
-        linkTextField.text = placeholderText
-        linkTextField.returnKeyType = .done
-    }
+
     private func configureLinkTextFieldWithStandardPlaceholder() {
         
         linkTextField.returnKeyType = .done
         
         let textAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.foregroundColor: UIColor.white
-            //            ,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35.0)
         ]
         
         let linkPlaceholder = "Enter Your Location Here"
@@ -89,11 +82,9 @@ class PromptForLinkController: UIViewController {
     @IBAction func shareLocation(_ sender: Any) {
         
         let newLoc = buildStudentLocation()
-//        StudentLocationsModel.studentLocations.insert( newLoc, at: 0 )
         
         newStudentLocationHandler?.newStudentLocation = newLoc
         self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
-//        self.dismiss(animated: true, completion: nil)
     }
     private func buildStudentLocation() -> StudentLocation {
         
@@ -113,24 +104,14 @@ class PromptForLinkController: UIViewController {
 
 extension PromptForLinkController: UITextFieldDelegate {
     
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//        if linkField.text == placeholderText {
-//            linkField.text = ""
-//        }
-//    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         linkTextField.resignFirstResponder()
         return true
     }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//        if linkField.text?.isEmpty ?? true {
-//            linkField.text = placeholderText
-//        }
-//    }
 }
+
+// MARK: - Dismiss keyboard on taps outside field
 extension PromptForLinkController {
     
     func dismissKeyboardOnTapOutsideField() {

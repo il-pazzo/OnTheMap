@@ -42,6 +42,7 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginButtonTapped( _ sender: UIButton ) {
         
+        ParseClient.Auth.key = "key"
         self.performSegue( withIdentifier: "completeLogin", sender: nil )
     }
 }
