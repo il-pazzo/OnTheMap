@@ -131,6 +131,20 @@ extension PromptForLocationController: UITextFieldDelegate {
         locationTextField.resignFirstResponder()
         return true
     }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        
+        findOnMapButton.isEnabled = false
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newLength = textField.text!.count + string.count - range.length
+        findOnMapButton.isEnabled = newLength > 0
+        
+        return true
+    }
 }
 
 // MARK: - dismiss keyboard if tapped outside text field

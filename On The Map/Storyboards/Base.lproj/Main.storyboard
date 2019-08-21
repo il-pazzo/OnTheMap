@@ -253,7 +253,7 @@
                                     <constraint firstItem="QVL-Vr-6HD" firstAttribute="leading" secondItem="esO-zx-jZK" secondAttribute="leading" constant="10" id="thq-LE-y1c"/>
                                 </constraints>
                             </view>
-                            <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aX-gR-5dt">
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aX-gR-5dt">
                                 <rect key="frame" x="127" y="581" width="160" height="36"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
