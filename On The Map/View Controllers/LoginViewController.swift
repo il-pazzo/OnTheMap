@@ -96,3 +96,21 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: - Ensure login button is enabled only when a username is present
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        
+        loginButton.isEnabled = false
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newLength = textField.text!.count + string.count - range.length
+        loginButton.isEnabled = newLength > 0
+        
+        return true
+    }
+}
+
