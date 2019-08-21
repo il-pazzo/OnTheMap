@@ -83,15 +83,14 @@ class PromptForLinkController: UIViewController {
         annotation.coordinate = coordinate
 
         self.mapView.addAnnotation( annotation )
-//        self.mapView.showAnnotations([annotation], animated: true)
     }
     
     @IBAction func shareLocation(_ sender: Any) {
         
         let newLoc = buildStudentLocation()
-        
         newStudentLocationHandler?.newStudentLocation = newLoc
-        self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
+        
+        ParseClient.addNewStudentLocation(loc: newLoc, completion: handleNewStudentLocation(success:error:))
     }
     private func buildStudentLocation() -> StudentLocation {
         
@@ -106,6 +105,15 @@ class PromptForLinkController: UIViewController {
                                latitude: coordinate!.latitude,
                                mapString: coordinateName ?? "?",
                                mediaURL: linkTextField.text ?? "" )
+    }
+    private func handleNewStudentLocation( success: Bool, error: Error? ) {
+        
+        guard error == nil else {
+            print( "Add failed:", error?.localizedDescription ?? "An error occurred" )
+            return
+        }
+        
+        self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
     }
 }
 

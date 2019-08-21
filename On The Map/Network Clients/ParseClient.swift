@@ -18,6 +18,7 @@ class ParseClient
     
     struct Auth
     {
+        static var lastObjectId: String?
         static var key = ""
         static var id = ""
         static var isLoggedIn: Bool {
@@ -184,7 +185,7 @@ class ParseClient
     }
     
     class func addNewStudentLocation( loc: StudentLocation,
-                                      completion: @escaping (String?, Error?) -> Void ) {
+                                      completion: @escaping (Bool, Error?) -> Void ) {
         
         let endpoint = Endpoints.newStudentLocation
         taskForPOSTRequest( url: endpoint.url,
@@ -194,11 +195,12 @@ class ParseClient
                             body: loc ) { (response, error) in
             
             guard let response = response else {
-                completion( nil, error )
+                completion( false, error )
                 return
             }
             
-            completion( response.objectId, nil )
+            Auth.lastObjectId = response.objectId
+            completion( true, nil )
         }
     }
     
