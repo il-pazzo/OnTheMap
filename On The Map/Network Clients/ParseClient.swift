@@ -88,8 +88,10 @@ class ParseClient
     
     enum MethodType: String
     {
-        case put = "PUT"
-        case post = "POST"
+        case PUT = "PUT"
+        case POST = "POST"
+        case GET = "GET"
+        case DELETE = "DELETE"
     }
     
     enum MiscNetworkError: Error
@@ -181,11 +183,12 @@ class ParseClient
         return task
     }
     
-    class func addNewStudentLocation( loc: StudentLocation, completion: @escaping (String?, Error?) -> Void ) {
+    class func addNewStudentLocation( loc: StudentLocation,
+                                      completion: @escaping (String?, Error?) -> Void ) {
         
         let endpoint = Endpoints.newStudentLocation
         taskForPOSTRequest( url: endpoint.url,
-                            methodType: MethodType.post.rawValue,
+                            methodType: MethodType.POST.rawValue,
                             hasGoofyResponse: endpoint.hasGoofyResponse,
                             responseType: ParsePostStudentLocationResponse.self,
                             body: loc ) { (response, error) in
@@ -199,11 +202,13 @@ class ParseClient
         }
     }
     
-    class func updateStudentLocation( loc: StudentLocation, completion: @escaping (Bool, Error?) -> Void ) {
+    class func updateStudentLocation( loc: StudentLocation,
+                                      completion: @escaping (Bool, Error?) -> Void ) {
         
         let endpoint = Endpoints.updateStudentLocation(objectId: loc.objectId)
+        
         taskForPOSTRequest( url: endpoint.url,
-                            methodType: MethodType.put.rawValue,
+                            methodType: MethodType.PUT.rawValue,
                             hasGoofyResponse: endpoint.hasGoofyResponse,
                             responseType: ParsePutStudentLocationResponse.self,
                             body: loc ) { (response, error) in
@@ -221,14 +226,23 @@ class ParseClient
         
         let loginCredentials = LoginCredentials( username: username, password: password )
         let endpoint = Endpoints.createSession
+        
         taskForPOSTRequest(url: endpoint.url,
-                           methodType: MethodType.post.rawValue,
+                           methodType: MethodType.POST.rawValue,
                            hasGoofyResponse: endpoint.hasGoofyResponse,
                            responseType: LoginResponse.self,
                            body: loginCredentials ) { (response, error) in
                             
             guard let response = response else {
-                completion( false, error )
+                var tweakedError = error
+                if error is OTMCallFailedResponse {
+                    let otmError = error as! OTMCallFailedResponse
+                    if otmError.status == 400 {
+                        tweakedError = OTMCallFailedResponse(status: otmError.status,
+                                                             error: "Username or password is incorrect")
+                    }
+                }
+                completion( false, tweakedError )
                 return
             }
             
@@ -278,13 +292,13 @@ class ParseClient
                 let savedError = error
                 print( "data was: ", String(data: tweakedData, encoding: .utf8)! )
                 print( "parse POST failed: \(error)")
-//                do {
-//                    let tmdbResponse = try decoder.decode( TMDBResponse.self, from: data )
-//                    DispatchQueue.main.async { completion( nil, tmdbResponse ) }
-//                }
-//                catch {
+                do {
+                    let otmCallFailedResponse = try decoder.decode( OTMCallFailedResponse.self, from: tweakedData )
+                    DispatchQueue.main.async { completion( nil, otmCallFailedResponse ) }
+                }
+                catch {
                     DispatchQueue.main.async { completion( nil, savedError ) }
-//                }
+                }
             }
         }
         task.resume()

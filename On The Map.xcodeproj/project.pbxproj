@@ -29,6 +29,7 @@
 		BB0A2A3A230B7ECA00703126 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */; };
 		BB0A2A3C230B7F0C00703126 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */; };
 		BB0A2A3E230BC43300703126 /* GetUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */; };
+		BB0A2A40230D091100703126 /* OTMCallFailedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A2A3F230D091100703126 /* OTMCallFailedResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserInfoResponse.swift; sourceTree = "<group>"; };
+		BB0A2A3F230D091100703126 /* OTMCallFailedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTMCallFailedResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				BB0A2A39230B7ECA00703126 /* LoginCredentials.swift */,
 				BB0A2A3B230B7F0C00703126 /* LoginResponse.swift */,
 				BB0A2A3D230BC43300703126 /* GetUserInfoResponse.swift */,
+				BB0A2A3F230D091100703126 /* OTMCallFailedResponse.swift */,
 			);
 			path = "Network Results";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				BB0297BF23086F2B004DB49E /* ParseClient.swift in Sources */,
 				BB0297BC230543CD004DB49E /* PinListViewController.swift in Sources */,
 				BB0297C223087E74004DB49E /* StudentLocations.swift in Sources */,
+				BB0A2A40230D091100703126 /* OTMCallFailedResponse.swift in Sources */,
 				BB02979E23050230004DB49E /* AppDelegate.swift in Sources */,
 				BB0297B8230504E2004DB49E /* MapViewController.swift in Sources */,
 				BB0297CA2308967D004DB49E /* StudentLocationsLoader.swift in Sources */,

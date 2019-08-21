@@ -67,9 +67,11 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonTapped( _ sender: UIButton ) {
         
-        guard let username = emailTextField.text,
-            let password = passwordTextField.text
-            else { return }
+        guard let username = emailTextField.text else {
+            return
+        }
+        
+        let password = passwordTextField.text ?? ""
         
         ParseClient.createSession(username: username, password: password, completion: handleLoginResult(success:error:))
     }
@@ -78,6 +80,7 @@ class LoginViewController: UIViewController {
         
         if !success {
             print( "login failed: \(error!)" )
+            self.showLoginFailure( message: error?.localizedDescription ?? "An error occurred" )
             return
         }
         
@@ -88,11 +91,19 @@ class LoginViewController: UIViewController {
         
         if !success {
             print( "user info failed: \(error!)" )
+            self.showLoginFailure( message: error?.localizedDescription ?? "Could not locate account detail" )
             return
         }
         
         print( "userinfo = ", ParseClient.studentInfo! )
         self.performSegue( withIdentifier: segueIdentifierSuccessfulLogin, sender: nil )
+    }
+    
+    func showLoginFailure( message: String ) {
+        
+        let alertVC = UIAlertController(title: "Login failed", message: message, preferredStyle: .alert)
+        alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
+        show( alertVC, sender: nil )
     }
 }
 
