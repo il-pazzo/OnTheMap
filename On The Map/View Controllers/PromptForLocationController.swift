@@ -87,7 +87,6 @@ class PromptForLocationController: UIViewController {
             return
         }
 
-//        fakeHandleLocationResult()
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString( locationText, completionHandler: handleFindLocationResult(placemarks:error:))
     }
@@ -115,12 +114,6 @@ class PromptForLocationController: UIViewController {
         vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
     }
-//    private func fakeHandleLocationResult() {
-//
-//        let vc = PromptForLinkController.instantiate() as! PromptForLinkController
-//        vc.newStudentLocationHandler = newStudentLocationHandler
-//        self.navigationController?.pushViewController(vc, animated: true)
-//    }
 }
 
 // MARK: - textfield delegate method to dismiss the keyboard
