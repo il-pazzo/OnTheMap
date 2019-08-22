@@ -21,15 +21,6 @@ class ParseClient
         static var lastObjectId: String?
         static var key = ""
         static var id = ""
-        static var isLoggedIn: Bool {
-            get { return !key.isEmpty }
-            set {
-                if !newValue {
-                    key = ""
-                    id = ""
-                }
-            }
-        }
     }
     
     enum Endpoints
@@ -318,6 +309,9 @@ class ParseClient
             }
             
 //            print( "killSession:", String(data:data!, encoding:.utf8)! )
+            Auth.key = ""
+            Auth.id = ""
+            
             completion?( true, nil )
         }
     }
@@ -353,7 +347,7 @@ class ParseClient
             }
             
             let tweakedData = hasGoofyResponse ? data.subdata(in: 5..<data.count) : data
-            DispatchQueue.main.async { completion( tweakedData, response, error ) }
+            DispatchQueue.main.async { completion( tweakedData, response, nil ) }
         }
         task.resume()
     }

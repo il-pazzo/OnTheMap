@@ -31,11 +31,23 @@ class MapViewController: UIViewController {
     
     private func configureNavigationBar() {
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
+        let logoutItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(logout))
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        let newLocationItem = UIBarButtonItem(image: mapButton, style: .plain, target: self, action: #selector(promptForNewLocation))
+        
+        let refreshItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshStudentLocations))
+        
+        navigationItem.leftBarButtonItems = [ logoutItem, newLocationItem ]
+        navigationItem.rightBarButtonItems = [ refreshItem ]
         
         navigationItem.title = AppDelegate.appName
+    }
+    
+    @objc private func logout() {
+        
+        ParseClient.killSession { (success, error) in
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     @objc private func refreshStudentLocations() {
