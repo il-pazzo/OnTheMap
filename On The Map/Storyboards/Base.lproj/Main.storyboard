@@ -267,6 +267,9 @@
                                     <action selector="findEnteredLocationOnMap:" destination="WAn-LT-toR" eventType="touchUpInside" id="Zy9-bH-MeS"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KlY-qq-nIj">
+                                <rect key="frame" x="197" y="625" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
@@ -275,14 +278,17 @@
                             <constraint firstItem="esO-zx-jZK" firstAttribute="trailing" secondItem="i2c-6A-jl1" secondAttribute="trailing" id="FDC-en-RgI"/>
                             <constraint firstItem="9aX-gR-5dt" firstAttribute="top" secondItem="esO-zx-jZK" secondAttribute="bottom" constant="102.5" id="GzZ-Ro-F9M"/>
                             <constraint firstItem="LP0-pc-DbO" firstAttribute="leading" secondItem="i2c-6A-jl1" secondAttribute="leading" constant="10" id="Jli-kN-JUs"/>
+                            <constraint firstItem="KlY-qq-nIj" firstAttribute="top" secondItem="9aX-gR-5dt" secondAttribute="bottom" constant="8" id="Kpf-J3-D6j"/>
                             <constraint firstItem="9aX-gR-5dt" firstAttribute="centerX" secondItem="i2c-6A-jl1" secondAttribute="centerX" id="b4g-o5-t0v"/>
                             <constraint firstItem="LP0-pc-DbO" firstAttribute="top" secondItem="i2c-6A-jl1" secondAttribute="top" constant="50" id="sHc-yz-7Pv"/>
                             <constraint firstItem="esO-zx-jZK" firstAttribute="top" secondItem="LP0-pc-DbO" secondAttribute="bottom" constant="100" id="toD-uv-YGp"/>
+                            <constraint firstItem="KlY-qq-nIj" firstAttribute="centerX" secondItem="i2c-6A-jl1" secondAttribute="centerX" id="zej-6q-noa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="i2c-6A-jl1"/>
                     </view>
                     <navigationItem key="navigationItem" id="ooi-SZ-daA"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="KlY-qq-nIj" id="iqs-FX-5hF"/>
                         <outlet property="findOnMapButton" destination="9aX-gR-5dt" id="sFU-ch-gDQ"/>
                         <outlet property="locationTextField" destination="QVL-Vr-6HD" id="tFW-X2-sUI"/>
                         <outlet property="topTextLabel" destination="LP0-pc-DbO" id="rwe-il-ZaH"/>

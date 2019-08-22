@@ -14,6 +14,7 @@ class PromptForLocationController: UIViewController {
     @IBOutlet weak var topTextLabel: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var findOnMapButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let placeholderText = "Enter Your Location Here"
     
@@ -87,11 +88,14 @@ class PromptForLocationController: UIViewController {
             return
         }
 
+        activityIndicator.startAnimating()
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString( locationText, completionHandler: handleFindLocationResult(placemarks:error:))
     }
     
     private func handleFindLocationResult( placemarks: [CLPlacemark]?, error: Error? ) {
+
+        activityIndicator.stopAnimating()
         guard error == nil else {
             print( "Could not find address: \(error!)" )
             showFindLocationFailure(message: error!.localizedDescription )
