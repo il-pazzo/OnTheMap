@@ -28,13 +28,7 @@ class PinListViewController: UIViewController {
 
         configureNavigationBar()
         
-        StudentLocationsLoader.loadStudentLocationsIfEmpty { (error) in
-            self.tableView.reloadData()
-            if error != nil {
-                //consider showing error alert
-                print(error!)
-            }
-        }
+        StudentLocationsLoader.loadStudentLocationsIfEmpty( completion: handleTableLoad(error:))
     }
     
     private func configureNavigationBar() {
@@ -58,9 +52,25 @@ class PinListViewController: UIViewController {
     
     @objc private func refreshStudentLocations() {
         
-        StudentLocationsLoader.refreshStudentLocations { (error) in
-            self.tableView.reloadData()
+        StudentLocationsLoader.refreshStudentLocations( completion: handleTableLoad(error:))
+    }
+    
+    private func handleTableLoad( error: Error? ) {
+        
+        self.tableView.reloadData()
+        if error != nil {
+            showLoadFailure(message: error!.localizedDescription)
+            print(error!)
         }
+    }
+    private func showLoadFailure( message: String ) {
+        
+        print( "load failure: \(message)" )
+        let alertVC = UIAlertController(title: "Location load failed",
+                                        message: message,
+                                        preferredStyle: .alert)
+        alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
+        present(alertVC, animated: true, completion: nil)
     }
 }
 

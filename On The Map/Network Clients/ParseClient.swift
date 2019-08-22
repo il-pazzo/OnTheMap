@@ -102,19 +102,18 @@ class ParseClient
     
     class func getStudentLocations(completion: @escaping ([StudentLocation], Error?) -> Void) {
         
-//        let parmMap = [ kLimit:"10000", kOrder:"-updatedAt" ]
-        let parmMap = [ kLimit:"200", kOrder:"-updatedAt" ]
+        let parmMap = [ kLimit:"100", kOrder:"-updatedAt" ]
         let endpoint = Endpoints.getLocations(parmMap: parmMap)
         taskForGETRequest( url: endpoint.url,
                            hasGoofyResponse: endpoint.hasGoofyResponse,
                            responseType: StudentLocations.self) { (response, error) in
             
             guard let response = response else {
-                completion( [], nil )
+                completion( [], error )
                 return
             }
             
-            print("Retrieved \(response.results.count) results!" )
+//            print("Retrieved \(response.results.count) results!" )
             completion(response.results, nil)
         }
     }
@@ -169,14 +168,14 @@ class ParseClient
             catch {
                 let savedError = error
                 print( "data was: ", String(data: tweakedData, encoding: .utf8)! )
-                print( "parse POST failed: \(error)")
-//                do {
-//                    let tmdbResponse = try decoder.decode( TMDBResponse.self, from: data )
-//                    DispatchQueue.main.async { completion(nil, tmdbResponse) }
-//                }
-//                catch {
+                print( "parse GET failed: \(error)")
+                do {
+                    let otmCallFailedResponse = try decoder.decode( OTMCallFailedResponse.self, from: tweakedData )
+                    DispatchQueue.main.async { completion( nil, otmCallFailedResponse ) }
+                }
+                catch {
                     DispatchQueue.main.async { completion(nil, savedError) }
-//                }
+                }
             }
         }
         task.resume()

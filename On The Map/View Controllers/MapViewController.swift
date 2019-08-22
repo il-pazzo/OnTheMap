@@ -57,6 +57,11 @@ class MapViewController: UIViewController {
     // MARK: - Show all annotations on map
     private func mapAllStudentLocations(error: Error?) {
         
+        guard error == nil else {
+            showLoadFailure(message: error!.localizedDescription )
+            return
+        }
+        
         var annotations = [MKPointAnnotation]()
         
         for loc in StudentLocationsModel.studentLocations {
@@ -83,6 +88,16 @@ class MapViewController: UIViewController {
         annotation.subtitle = loc.isValidURL ? mediaURL : nil
         
         return annotation
+    }
+    
+    private func showLoadFailure( message: String ) {
+        
+        print( "load failure: \(message)" )
+        let alertVC = UIAlertController(title: "Location load failed",
+                                        message: message,
+                                        preferredStyle: .alert)
+        alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
+        present(alertVC, animated: true, completion: nil)
     }
 }
     

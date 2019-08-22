@@ -103,7 +103,7 @@ class LoginViewController: UIViewController {
         
         let alertVC = UIAlertController(title: "Login failed", message: message, preferredStyle: .alert)
         alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
-        show( alertVC, sender: nil )
+        present(alertVC, animated: true, completion: nil)
     }
 }
 
