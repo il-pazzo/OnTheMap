@@ -81,8 +81,11 @@ class PromptForLinkController: UIViewController {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
+        mapView.addAnnotation( annotation )
 
-        self.mapView.addAnnotation( annotation )
+        let region = MKCoordinateRegion( center: annotation.coordinate,
+                                         span: MKCoordinateSpan(latitudeDelta: 0.50, longitudeDelta: 0.50))
+        mapView.setRegion(region, animated: true)
     }
     
     @IBAction func shareLocation(_ sender: Any) {
