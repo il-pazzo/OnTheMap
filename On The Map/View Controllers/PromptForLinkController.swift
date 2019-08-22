@@ -109,11 +109,21 @@ class PromptForLinkController: UIViewController {
     private func handleNewStudentLocation( success: Bool, error: Error? ) {
         
         guard error == nil else {
-            print( "Add failed:", error?.localizedDescription ?? "An error occurred" )
+            print( "Add failed:", error!.localizedDescription )
+            showNewStudentLocationFailure(message: error!.localizedDescription)
             return
         }
         
         self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
+    }
+    
+    private func showNewStudentLocationFailure( message: String ) {
+        
+        let alertVC = UIAlertController(title: "Location not saved",
+                                        message: message,
+                                        preferredStyle: .alert)
+        alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
+        present(alertVC, animated: true, completion: nil)
     }
 }
 

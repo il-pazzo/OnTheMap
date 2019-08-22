@@ -94,6 +94,7 @@ class PromptForLocationController: UIViewController {
     private func handleFindLocationResult( placemarks: [CLPlacemark]?, error: Error? ) {
         guard error == nil else {
             print( "Could not find address: \(error!)" )
+            showFindLocationFailure(message: error!.localizedDescription )
             return
         }
         guard let placemarks = placemarks,
@@ -101,6 +102,7 @@ class PromptForLocationController: UIViewController {
                 let placemark = placemarks.first
         else {
             print( "No error, but location not found" )
+            showFindLocationFailure(message: "Location not recognized")
             return
         }
         
@@ -113,6 +115,16 @@ class PromptForLocationController: UIViewController {
         vc.coordinateName = placemark.name ?? locationTextField.text
         vc.newStudentLocationHandler = newStudentLocationHandler
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showFindLocationFailure( message: String ) {
+        
+        print( "Location not recognized: \(message)" )
+        let alertVC = UIAlertController(title: "Location not recognized",
+                                        message: message,
+                                        preferredStyle: .alert)
+        alertVC.addAction( UIAlertAction(title: "OK", style: .default, handler: nil ))
+        present(alertVC, animated: true, completion: nil)
     }
 }
 
