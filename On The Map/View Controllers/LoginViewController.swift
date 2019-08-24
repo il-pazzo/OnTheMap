@@ -99,6 +99,9 @@ class LoginViewController: UIViewController {
         
         print( "userinfo = ", ParseClient.studentInfo! )
         self.performSegue( withIdentifier: segueIdentifierSuccessfulLogin, sender: nil )
+        
+        // clear the password text field for when the screen shows again after they logout
+        self.passwordTextField.text = ""
     }
     
     func showLoginFailure( message: String ) {
