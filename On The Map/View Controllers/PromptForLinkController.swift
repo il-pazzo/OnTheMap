@@ -27,7 +27,7 @@ class PromptForLinkController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.dismissKeyboardOnTapOutsideField()
+        dismissKeyboardOnTapOutsideField()
 
         configureNavigationBar()
         configureLinkTextFieldWithStandardPlaceholder()
@@ -37,12 +37,12 @@ class PromptForLinkController: UIViewController {
     }
     private func configureNavigationBar() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonHit))
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = linkContainerView.backgroundColor
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonHit))
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = linkContainerView.backgroundColor
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.hidesBackButton = true
     }
 
     private func configureLinkTextFieldWithStandardPlaceholder() {
@@ -71,7 +71,7 @@ class PromptForLinkController: UIViewController {
 
     @objc private func cancelButtonHit() {
         
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     private func showMapPin() {
         
@@ -117,7 +117,7 @@ class PromptForLinkController: UIViewController {
             return
         }
         
-        self.dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
+        dismiss(animated: true, completion: newStudentLocationHandler?.handleNewStudentLocation)
     }
     
     private func showNewStudentLocationFailure( message: String ) {
@@ -136,21 +136,5 @@ extension PromptForLinkController: UITextFieldDelegate {
         
         linkTextField.resignFirstResponder()
         return true
-    }
-}
-
-// MARK: - Dismiss keyboard on taps outside field
-extension PromptForLinkController {
-    
-    func dismissKeyboardOnTapOutsideField() {
-        
-        let tap = UITapGestureRecognizer( target: self, action: #selector(endEditingOnTap))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-    }
-    
-    @objc func endEditingOnTap() {
-        
-        self.view.endEditing( true )
     }
 }

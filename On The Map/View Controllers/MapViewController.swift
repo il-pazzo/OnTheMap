@@ -82,8 +82,8 @@ class MapViewController: UIViewController {
             annotations.append( annotation )
         }
         
-        self.mapView.addAnnotations(annotations)
-        self.mapView.showAnnotations(annotations, animated: true)
+        mapView.addAnnotations(annotations)
+        mapView.showAnnotations(annotations, animated: true)
     }
     private func buildPointAnnotationFrom( loc: StudentLocation ) -> MKPointAnnotation {
         

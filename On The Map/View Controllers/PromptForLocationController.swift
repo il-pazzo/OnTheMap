@@ -30,14 +30,14 @@ class PromptForLocationController: UIViewController {
         configureTopText()
         configureLocationTextFieldWithStandardPlaceholder()
         
-        self.dismissKeyboardOnTapOutsideField()
+        dismissKeyboardOnTapOutsideField()
     }
     private func configureNavigationBar() {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonHit))
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = self.view.backgroundColor
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = view.backgroundColor
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     private func configureTopText() {
         
@@ -76,7 +76,7 @@ class PromptForLocationController: UIViewController {
     }
     
     @objc private func cancelButtonHit() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func findEnteredLocationOnMap(_ sender: UIButton) {
@@ -118,7 +118,7 @@ class PromptForLocationController: UIViewController {
         vc.coordinate = placemark.location?.coordinate
         vc.coordinateName = placemark.name ?? locationTextField.text
         vc.newStudentLocationHandler = newStudentLocationHandler
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showFindLocationFailure( message: String ) {
@@ -153,22 +153,5 @@ extension PromptForLocationController: UITextFieldDelegate {
         findOnMapButton.isEnabled = newLength > 0
         
         return true
-    }
-}
-
-// MARK: - dismiss keyboard if tapped outside text field
-// (technique found on StackOverflow)
-extension PromptForLocationController {
-    
-    func dismissKeyboardOnTapOutsideField() {
-        
-        let tap = UITapGestureRecognizer( target: self, action: #selector(endEditingOnTap))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-    }
-    
-    @objc func endEditingOnTap() {
-        
-        self.view.endEditing( true )
     }
 }

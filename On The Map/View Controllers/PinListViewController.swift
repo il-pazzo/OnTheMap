@@ -69,7 +69,7 @@ class PinListViewController: UIViewController {
     
     private func handleTableLoad( error: Error? ) {
         
-        self.tableView.reloadData()
+        tableView.reloadData()
         if error != nil {
             showLoadFailure(message: error!.localizedDescription)
             print(error!)

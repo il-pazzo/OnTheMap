@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.dismissKeyboardOnTapOutsideField()
+        dismissKeyboardOnTapOutsideField()
 
         configureTextFields()
         configureSignUpTextView()
@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
         
         if !success {
             print( "login failed: \(error!)" )
-            self.showLoginFailure( message: error?.localizedDescription ?? "An error occurred" )
+            showLoginFailure( message: error?.localizedDescription ?? "An error occurred" )
             return
         }
         
@@ -93,15 +93,15 @@ class LoginViewController: UIViewController {
         
         if !success {
             print( "user info failed: \(error!)" )
-            self.showLoginFailure( message: error?.localizedDescription ?? "Could not locate account detail" )
+            showLoginFailure( message: error?.localizedDescription ?? "Could not locate account detail" )
             return
         }
         
         print( "userinfo = ", ParseClient.studentInfo! )
-        self.performSegue( withIdentifier: segueIdentifierSuccessfulLogin, sender: nil )
+        performSegue( withIdentifier: segueIdentifierSuccessfulLogin, sender: nil )
         
         // clear the password text field for when the screen shows again after they logout
-        self.passwordTextField.text = ""
+        passwordTextField.text = ""
     }
     
     func showLoginFailure( message: String ) {
@@ -133,21 +133,5 @@ extension LoginViewController: UITextFieldDelegate {
         loginButton.isEnabled = newLength > 0
         
         return true
-    }
-}
-
-// MARK: - Dismiss keyboard on taps outside field
-extension LoginViewController {
-    
-    func dismissKeyboardOnTapOutsideField() {
-        
-        let tap = UITapGestureRecognizer( target: self, action: #selector(endEditingOnTap))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-    }
-    
-    @objc func endEditingOnTap() {
-        
-        self.view.endEditing( true )
     }
 }

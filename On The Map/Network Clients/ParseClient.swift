@@ -104,7 +104,6 @@ class ParseClient
                 return
             }
             
-//            print("Retrieved \(response.results.count) results!" )
             completion(response.results, nil)
         }
     }
@@ -122,7 +121,6 @@ class ParseClient
                 return
             }
             
-//            let loc = studentLocation( from: response )
             studentInfo = response
             completion( true, nil )
         }
@@ -308,7 +306,6 @@ class ParseClient
                 return
             }
             
-//            print( "killSession:", String(data:data!, encoding:.utf8)! )
             Auth.key = ""
             Auth.id = ""
             
