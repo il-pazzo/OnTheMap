@@ -22,6 +22,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.dismissKeyboardOnTapOutsideField()
 
         configureTextFields()
         configureSignUpTextView()
@@ -51,7 +53,7 @@ class LoginViewController: UIViewController {
         let linkAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.link: URL(string: "https://auth.udacity.com/sign-up")!,
             NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0)
         ]
         
         let attributedLinkText = NSMutableAttributedString( string: linkText,
@@ -125,3 +127,18 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - Dismiss keyboard on taps outside field
+extension LoginViewController {
+    
+    func dismissKeyboardOnTapOutsideField() {
+        
+        let tap = UITapGestureRecognizer( target: self, action: #selector(endEditingOnTap))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func endEditingOnTap() {
+        
+        self.view.endEditing( true )
+    }
+}
